@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Islamic Civilization Quest</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#081a33;--sap:#0f3a7a;--em:#0f8a6a;--gold:#e8b84a;--tq:#2bb7b0;--pur:#4b2a7b;--sand:#c49a62;--iv:#fbf6e9;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:radial-gradient(120% 90% at 50% 0,#14468f 0,var(--bg) 60%);color:var(--iv);font:16px/1.55 Nunito,system-ui,sans-serif}
+h1,h2,h3{font-family:Marcellus,Georgia,serif;font-weight:400;margin:.2em 0}
+button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.btn{background:linear-gradient(#f3cb6a,#d9a132);color:#2a1a00;border:0;border-radius:12px;padding:.6em 1.2em;font-weight:800;box-shadow:0 4px 0 #8a6414,0 8px 18px #0006;transition:transform .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a6414}
+.btn.ghost{background:#ffffff14;color:var(--iv);box-shadow:none;border:1px solid #ffffff40}
+.btn.sm{padding:.3em .7em;font-size:.9rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.card{background:linear-gradient(160deg,#ffffff1c,#ffffff08);border:1px solid #e8b84a55;border-radius:16px;padding:1rem 1.2rem;box-shadow:0 10px 30px #0005;backdrop-filter:blur(4px)}
+#hud{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;padding:.5rem .8rem;background:#06122acc;border-bottom:1px solid #e8b84a66;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+#hud .st{font-weight:800}
+.bar{height:8px;border-radius:5px;background:#ffffff25;min-width:90px;flex:1;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--tq),var(--gold));transition:width .6s}
+.bob{animation:bob 2.2s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-5px)}}
+.title{position:relative;min-height:100vh;display:grid;place-items:center;overflow:hidden;text-align:center;padding:1rem}
+.rays{position:absolute;inset:-50%;background:repeating-conic-gradient(from 0deg at 50% 60%,#e8b84a22 0 6deg,transparent 6deg 18deg);animation:spin 80s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sky{position:absolute;bottom:0;left:0;width:100%;height:38%;opacity:.9}
+.tc{position:relative;max-width:760px}
+.tc h1{font-size:clamp(1.8rem,6vw,3.6rem);letter-spacing:.04em;color:var(--gold);text-shadow:0 3px 0 #5a3d00,0 0 40px #e8b84a88}
+.tc h2{font-size:clamp(1rem,2.6vw,1.5rem);color:#bfe9e6}
+.tag{font-style:italic;color:var(--iv)}
+.who{display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;margin:1rem 0}
+input{font:inherit;padding:.6em .8em;border-radius:10px;border:2px solid var(--gold);background:#0a1f40;color:var(--iv);width:100%;max-width:260px}
+.avs{display:flex;gap:.5rem;margin-top:.5rem}
+.avb{background:#ffffff12;border:2px solid transparent;border-radius:12px;padding:.2rem .5rem;font-size:.85rem}
+.avb.on{border-color:var(--gold);background:#e8b84a30}
+.mapwrap{display:grid;grid-template-columns:minmax(0,3fr) minmax(220px,1fr);gap:1rem;padding:1rem;max-width:1300px;margin:auto}
+@media(max-width:850px){.mapwrap{grid-template-columns:1fr}}
+#map{width:100%;height:auto;border-radius:18px;border:2px solid var(--gold);box-shadow:0 14px 40px #000a;background:#0a2a5a}
+.nd{cursor:pointer}.nd.lock{cursor:not-allowed}
+.nd .pl{animation:pulse 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{50%{transform:scale(1.25);opacity:.4}}
+.cl{animation:drift 30s linear infinite alternate}@keyframes drift{to{transform:translateX(60px)}}
+.stage{max-width:960px;margin:auto;padding:1rem}
+.stage>h2{font-size:1.7rem;color:var(--gold)}
+.sub{color:#bfe9e6;margin:0 0 1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem}
+.opt{display:block;width:100%;text-align:left;margin:.45rem 0;padding:.7em 1em;border-radius:12px;border:2px solid #ffffff40;background:#ffffff10}
+.opt:hover:not([disabled]){border-color:var(--gold)}
+.opt.good{background:#0f8a6acc;border-color:#5be3b5}.opt.bad{background:#a3283acc;border-color:#ff8a9a}
+.fb{margin:.6rem 0;padding:.6rem .9rem;border-radius:10px;background:#00000040}
+.pair{padding:.6em 1em;border-radius:12px;border:2px solid #ffffff40;background:#ffffff10;margin:.4rem 0;width:100%;text-align:left}
+.pair.sel{border-color:var(--gold);background:#e8b84a30}.pair.done{background:#0f8a6aaa;border-color:#5be3b5;pointer-events:none}
+.shake{animation:shake .3s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.ill{height:190px;border-radius:14px;display:grid;place-items:center;font-size:5rem;background:linear-gradient(135deg,var(--pur),var(--sap) 55%,var(--em));position:relative;overflow:hidden}
+.ill small{position:absolute;bottom:8px;left:12px;font-size:.9rem;color:var(--gold)}
+.slide{animation:sl .5s}@keyframes sl{from{opacity:0;transform:translateX(30px)}}
+.fact{border-left:4px solid var(--gold);padding:.4rem .8rem;margin-top:.8rem;background:#e8b84a1c;border-radius:0 10px 10px 0}
+.modal{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:20;padding:1rem}
+.modal .card{background:#0d2750;max-width:440px;text-align:center}
+.doors{position:fixed;inset:0;z-index:30;display:flex;pointer-events:none}
+.doors div{flex:1;background:linear-gradient(#7a5412,#c9962b);border:3px solid #3d2a05;animation:open 1.6s .4s forwards ease-in}
+.doors div:first-child{transform-origin:left}.doors div:last-child{transform-origin:right}
+@keyframes open{to{transform:scaleX(0)}}
+.badge{font-size:2.4rem}
+.win{animation:win 1s ease-out}@keyframes win{from{transform:scale(.3) rotate(-20deg)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+<div id="app"></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+let S;try{S=JSON.parse(localStorage.getItem('icq1'))}catch(e){}
+S=S||{name:'',av:'m',xp:0,coins:0,ok:0,tries:0,done:[],t:0};
+const save=()=>{try{localStorage.setItem('icq1',JSON.stringify(S))}catch(e){}};
+let snd=true,AC;
+function beep(f,d=.12){if(!snd)return;try{AC=AC||new AudioContext();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;g.gain.value=.06;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
+const app=$('#app'),pct=()=>Math.round(S.done.length/9*100),sh=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+setInterval(()=>{if(S.name&&!document.hidden){S.t++;if(S.t%10==0)save()}},1000);
+
+function av(g,s=90){const pre=g=='f'?'<ellipse cx="50" cy="40" rx="23" ry="25" fill="#4b2a7b"/>':'';const post=g=='f'?'':'<path d="M33 36q17-24 34 0v-4q-17-18-34 0z" fill="#3b2a1a"/>';
+return `<svg class="bob" width="${s}" height="${s}" viewBox="0 0 100 100" aria-hidden="true"><rect x="28" y="58" width="44" height="38" rx="14" fill="${g=='m'?'#0f8a6a':'#2bb7b0'}"/>${pre}<circle cx="50" cy="40" r="17" fill="#e0ac7e"/>${post}<circle cx="44" cy="40" r="2" fill="#222"/><circle cx="56" cy="40" r="2" fill="#222"/><path d="M44 47q6 5 12 0" stroke="#222" fill="none"/><rect x="64" y="62" width="14" height="18" rx="3" fill="#e8b84a"/></svg>`}
+
+const ST=[
+['Gerbang Penjelajah Ilmu','Awal Sebuah Perjalanan',70,385,'🚪','Madinah'],
+['Perpustakaan Peradaban','Menelusuri Jejak Perkembangan Peradaban Islam',170,290,'📚','Baghdad'],
+['Aula Para Cendekia','Mengenal Biografi Tokoh Peradaban Islam',120,175,'🎓','Kordoba'],
+['Lorong Artefak','Mengidentifikasi Bukti Sejarah Peradaban Islam',280,110,'🏺','Kairo'],
+['Menara Waktu','Menyusun Kronologi Perkembangan Peradaban',400,205,'⏳','Damaskus'],
+['Observatorium Analis','Menganalisis Perkembangan Peradaban Islam',500,320,'🔭','Bukhara'],
+['Taman Hikmah','Menggali Hikmah bagi Kehidupan Masa Kini',620,235,'🌿','Samarkand'],
+['Pasar Ilmu','Mencocokkan Tokoh dan Karyanya',690,115,'🧭','Istanbul'],
+['Puncak Evaluasi','Evaluasi Akhir: Master of Civilization',725,340,'👑','Pusat Ilmu']];
+const BD={1:['🧭','Penjelajah Sejarah'],2:['📜','Penjaga Manuskrip'],4:['🔍','Detektif Artefak'],6:['📊','Analis Peradaban'],8:['🎓','Cendekia Muda'],9:['👑','Master of Civilization']};
+
+function hud(){return `<div id="hud"><span>${av(S.av,34)}</span><b>${S.name||'Penjelajah'}</b><span class="st">⭐ <span id="hx">${S.xp}</span> XP</span><span class="st">🪙 <span id="hc">${S.coins}</span></span><div class="bar" title="Progres ${pct()}%"><i style="width:${pct()}%"></i></div><span class="st">${pct()}%</span>
+<span style="flex:1"></span><button class="btn ghost sm" data-h="map">🗺 Peta</button><button class="btn ghost sm" data-h="help">❔ Petunjuk</button><button class="btn ghost sm" data-h="snd">${snd?'🔊':'🔇'} Audio</button><button class="btn ghost sm" data-h="fs">⛶ Layar penuh</button><button class="btn ghost sm" data-h="menu">⌂ Menu</button></div>`}
+function upd(){const a=$('#hx'),b=$('#hc');if(a)a.textContent=S.xp;if(b)b.textContent=S.coins}
+function bindHud(){$$('[data-h]').forEach(b=>b.onclick=()=>{const k=b.dataset.h;
+if(k=='map')mapView();else if(k=='menu')title();else if(k=='help')help();
+else if(k=='snd'){snd=!snd;b.textContent=(snd?'🔊':'🔇')+' Audio'}
+else if(k=='fs'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{})}})}
+function modal(html,cb){const m=document.createElement('div');m.className='modal';m.innerHTML=`<div class="card">${html}</div>`;document.body.appendChild(m);cb&&cb(m);return m}
+function help(){modal(`<h3>Cara Bermain</h3><ol style="text-align:left"><li>Pilih stage yang terbuka (bertanda emas) pada peta.</li><li>Baca materi, jawab kuis, dan selesaikan mini-game.</li><li>Jawaban benar memberi XP dan koin ilmu.</li><li>Koin dapat dipakai untuk petunjuk (bukan di evaluasi akhir).</li><li>Selesaikan stage untuk membuka stage berikutnya.</li><li>Progres tersimpan otomatis di perangkat ini.</li></ol><button class="btn" id="ok">Mengerti</button>`,m=>m.querySelector('#ok').onclick=()=>m.remove())}
+
+function title(){const has=S.done.length>0;
+app.innerHTML=`<section class="title"><div class="rays"></div>
+<svg class="sky" viewBox="0 0 800 150" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f8a6a"/><stop offset="1" stop-color="#06122a"/></linearGradient></defs><path d="M0 150V110h60V90q20-30 40 0v20h40V50h8V30l4-14 4 14v20h8v60h60V95q30-45 60 0v15h50V70q40-60 80 0v40h60V80h12V40l5-18 5 18v40h12v30h70V90q22-34 44 0v20h80V60h8V36l4-14 4 14v24h8v50h90V150z" fill="url(#g)" stroke="#e8b84a" stroke-width="1.5"/></svg>
+<div class="tc"><h1>ISLAMIC CIVILIZATION QUEST</h1><h2>Menjelajahi Jejak Keemasan Peradaban Islam</h2><p class="tag">“Jelajahi Sejarahnya, Temukan Ilmunya, Hidupkan Inspirasinya!”</p>
+<div class="who"><div id="pv">${av(S.av,120)}</div><div><input id="nm" placeholder="Nama penjelajah" maxlength="20" value="${S.name}" aria-label="Nama pemain"><div class="avs"><button class="avb ${S.av=='m'?'on':''}" data-a="m">${av('m',44)}<br>Penjelajah Putra</button><button class="avb ${S.av=='f'?'on':''}" data-a="f">${av('f',44)}<br>Penjelajah Putri</button></div></div></div>
+<div class="row" style="justify-content:center"><button class="btn" id="go">▶ Mulai Petualangan</button>${has?'<button class="btn" id="cont">Lanjutkan Permainan</button>':''}<button class="btn ghost" id="hp">Petunjuk</button>${(has||S.name)?'<button class="btn ghost" id="rs">Reset Progres</button>':''}</div>
+<p style="font-size:.85rem;opacity:.8">PAI dan Budi Pekerti · Fase F · Kelas XII</p></div></section>`;
+$$('.avb').forEach(b=>b.onclick=()=>{S.av=b.dataset.a;$$('.avb').forEach(x=>x.classList.toggle('on',x==b));$('#pv').innerHTML=av(S.av,120)});
+const start=()=>{const n=$('#nm').value.trim();if(!n){$('#nm').focus();$('#nm').placeholder='Isi nama dahulu';return false}S.name=n;save();return true};
+$('#go').onclick=()=>{if(start()){beep(660);S.done.length?mapView():openStage(1)}};
+const c=$('#cont');if(c)c.onclick=()=>{if(start())mapView()};
+$('#hp').onclick=help;
+const r=$('#rs');if(r)r.onclick=()=>modal(`<h3>Reset progres?</h3><p>Semua XP, koin, badge, dan stage yang selesai akan dihapus. Tindakan ini tidak dapat dibatalkan.</p><div class="row" style="justify-content:center"><button class="btn" id="y">Ya, hapus</button><button class="btn ghost" id="n">Batal</button></div>`,m=>{m.querySelector('#n').onclick=()=>m.remove();m.querySelector('#y').onclick=()=>{S={name:'',av:'m',xp:0,coins:0,ok:0,tries:0,done:[],t:0};save();m.remove();title()}})}
+
+function mapView(){const un=n=>n==1||S.done.includes(n-1),pts=ST.map(s=>s[2]+' '+s[3]).join(' L');
+const nodes=ST.map((s,i)=>{const n=i+1,d=S.done.includes(n),o=un(n)&&!d,l=!un(n);const col=d?'#0f8a6a':o?'#e8b84a':'#5a6578';
+return `<g class="nd ${l?'lock':''}" data-n="${n}" tabindex="0" role="button" aria-label="Stage ${n}: ${s[0]}${l?' (terkunci)':''}">${o?`<circle class="pl" cx="${s[2]}" cy="${s[3]}" r="24" fill="#e8b84a"/>`:''}<circle cx="${s[2]}" cy="${s[3]}" r="21" fill="${col}" stroke="#fff8" stroke-width="3"/><text x="${s[2]}" y="${s[3]+7}" text-anchor="middle" font-size="20">${l?'🔒':d?'✔':s[4]}</text><circle cx="${s[2]+17}" cy="${s[3]-17}" r="9" fill="#4b2a7b" stroke="#e8b84a"/><text x="${s[2]+17}" y="${s[3]-13}" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">${n}</text><text x="${s[2]}" y="${s[3]+38}" text-anchor="middle" font-size="11" font-weight="800" fill="#fbf6e9" stroke="#06122a" stroke-width="3" paint-order="stroke">${s[5]}</text></g>`}).join('');
+const bs=Object.entries(BD).map(([k,v])=>`<span title="${v[1]}" style="opacity:${S.done.includes(+k)?1:.25}">${v[0]}</span> `).join('');
+app.innerHTML=hud()+`<div class="mapwrap"><svg id="map" viewBox="0 0 800 450" role="img" aria-label="Peta petualangan peradaban Islam"><defs><linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b6fb5"/><stop offset="1" stop-color="#0a2a5a"/></linearGradient><radialGradient id="isl"><stop offset="0" stop-color="#e3c68d"/><stop offset="1" stop-color="#c49a62"/></radialGradient></defs>
+<rect width="800" height="450" fill="url(#sea)"/><g class="cl" opacity=".35" fill="#fff"><ellipse cx="150" cy="40" rx="60" ry="12"/><ellipse cx="560" cy="60" rx="80" ry="14"/></g>
+<path d="M30 400Q20 250 90 150T260 50T520 40T760 60Q790 200 770 380T600 430T300 435T30 400z" fill="url(#isl)" stroke="#fff6" stroke-width="3"/>
+<path d="M150 380Q300 330 330 250T480 160T640 160" stroke="#2bb7b0" stroke-width="9" fill="none" opacity=".7"/>
+<g fill="#0f8a6a" opacity=".7"><circle cx="330" cy="370" r="30"/><circle cx="560" cy="130" r="26"/><circle cx="230" cy="215" r="22"/></g>
+<g fill="#7a5a3a"><path d="M430 70l25-45 25 45z"/><path d="M470 75l20-34 20 34z"/><path d="M590 400l22-38 22 38z"/></g>
+<g fill="#e8b84a" opacity=".5"><path d="M380 390q30-20 60 0q30-20 60 0z"/><path d="M80 90q20-14 40 0q20-14 40 0z"/></g>
+<path d="M${pts}" stroke="#fbf6e9" stroke-width="4" stroke-dasharray="3 9" stroke-linecap="round" fill="none" transform="translate(0)"/>
+<text x="400" y="438" text-anchor="middle" fill="#fbf6e9" font-size="13" font-family="Marcellus,serif">Peta Perjalanan Peradaban Islam</text>${nodes}</svg>
+<aside class="card"><h3>Progres</h3><div class="bar"><i style="width:${pct()}%"></i></div><p><b>${S.done.length}/9</b> stage · ${pct()}%<br>⭐ ${S.xp} XP · 🪙 ${S.coins} koin<br>✅ ${S.ok} jawaban benar<br>🔁 ${S.tries} percobaan<br>⏱ ${Math.floor(S.t/60)} mnt ${S.t%60} dtk</p><h3>Badge</h3><div class="badge">${bs}</div><p style="font-size:.85rem">Stage emas siap dimainkan. Stage berikutnya terbuka setelah stage sebelumnya selesai.</p></aside></div>`;
+bindHud();$$('.nd').forEach(g=>{const f=()=>{const n=+g.dataset.n;if(un(n)){beep(520);openStage(n)}else beep(160)};g.onclick=f;g.onkeydown=e=>{if(e.key=='Enter'||e.key==' ')f()}})}
+
+function view(n,html){const s=ST[n-1];app.innerHTML=hud()+`<div class="stage"><div class="row" style="justify-content:space-between"><h2>Stage ${n} — ${s[0]}</h2><button class="btn ghost sm" id="rp">↻ Ulangi Stage</button></div><p class="sub">${s[1]}</p>${html}</div>`;bindHud();$('#rp').onclick=()=>openStage(n)}
+function win(n,xp,c,line){const first=!S.done.includes(n);if(first){S.done.push(n);S.xp+=xp;S.coins+=c}save();beep(880,.3);const b=BD[n];
+modal(`<div class="win"><div class="badge">${b?b[0]:'🏆'}</div><h3>Stage ${n} selesai!</h3><p>${line||''}</p><p>${first?`+${xp} XP · +${c} koin ilmu${b?`<br>Badge: <b>${b[1]}</b>`:''}`:'Latihan ulang: XP dan koin tidak bertambah.'}</p></div><div class="row" style="justify-content:center"><button class="btn" id="m">Kembali ke Peta</button>${n<9?'<button class="btn ghost" id="x">Stage berikutnya</button>':''}</div>`,m=>{m.querySelector('#m').onclick=()=>{m.remove();mapView()};const x=m.querySelector('#x');if(x)x.onclick=()=>{m.remove();openStage(n+1)}})}
+
+function openStage(n){S.cur=n;save();const f={1:intro,2:slides,3:()=>quiz(3,Q3,1),4:()=>match(4,M4,'Pasangkan bukti sejarah dengan kota tempatnya.'),5:order,6:()=>quiz(6,Q6,1),7:()=>quiz(7,Q7,1),8:()=>match(8,M8,'Pasangkan tokoh dengan karya atau jasanya.'),9:()=>quiz(9,Q9,0)}[n];f(n)}
+
+function intro(){view(1,`<div class="card"><h3>Misi Utama</h3><p>“Warisan peradaban Islam tersebar di berbagai penjuru dunia. Kota-kota bersejarah menyimpan manuskrip, bangunan, penemuan, dan kisah para cendekiawan. Jadilah penjelajah ilmu yang mengungkap bukti sejarah, mengenal tokoh, dan menemukan hikmah bagi kehidupan masa kini.”</p></div>
+<h3 style="margin-top:1rem">Capaian Pembelajaran</h3><div class="card">Murid mampu memahami peran tokoh ulama dalam perkembangan peradaban Islam di dunia.</div>
+<h3 style="margin-top:1rem">Tujuan Pembelajaran <small>(ketuk setiap kartu)</small></h3><div class="grid" id="tp">${['Menjelaskan perkembangan peradaban Islam di dunia.','Mengidentifikasi bukti-bukti sejarah peradaban Islam di dunia.','Menjelaskan biografi tokoh peradaban Islam di dunia.','Menganalisis perkembangan peradaban Islam di dunia.','Menganalisis hikmah perkembangan peradaban Islam di dunia.'].map((t,i)=>`<button class="card opt" style="text-align:left"><b>Tujuan ${i+1}</b><br>${t}</button>`).join('')}</div>
+<div class="row" style="margin-top:1rem"><button class="btn" id="ms" disabled>MULAI MISI</button><button class="btn ghost" id="lp">LIHAT PETUNJUK</button><button class="btn ghost" id="kp">KEMBALI KE PETA</button></div>`);
+let k=0;$$('#tp button').forEach(b=>b.onclick=()=>{if(!b.classList.contains('good')){b.classList.add('good');k++;beep(600)}if(k==5)$('#ms').disabled=false});
+$('#lp').onclick=help;$('#kp').onclick=mapView;
+$('#ms').onclick=()=>{const d=document.createElement('div');d.className='doors';d.innerHTML='<div></div><div></div>';document.body.appendChild(d);beep(300,.8);setTimeout(()=>{d.remove();win(1,30,10,'Gerbang terbuka. Perjalanan dimulai!')},2100)}}
+
+const SL=[
+['Masa Nabi dan Khulafaurrasyidin','Peradaban Islam bermula dari Madinah setelah hijrah Nabi Muhammad saw. pada 622 M. Piagam Madinah mengatur kehidupan masyarakat majemuk. Pada masa Khulafaurrasyidin, wilayah Islam meluas dan tradisi tulis serta pengumpulan mushaf berkembang.','Mushaf Al-Qur’an dikodifikasi pada masa Utsman bin Affan.','🕌','Madinah, abad ke-7'],
+['Dinasti Umayyah (661–750 M)','Berpusat di Damaskus, Umayyah memperluas wilayah dari Andalusia hingga Asia Tengah. Bahasa Arab dijadikan bahasa administrasi, mata uang dinar diperkenalkan, dan monumen seperti Kubah Shakhrah (691 M) serta Masjid Umayyah dibangun.','Kubah Shakhrah di Yerusalem dibangun pada masa Abdul Malik bin Marwan.','🏛️','Damaskus'],
+['Dinasti Abbasiyah dan Baghdad','Abbasiyah berdiri pada 750 M. Baghdad dibangun Khalifah Al-Manshur pada 762 M. Pada masa Al-Ma’mun, Baitul Hikmah menjadi pusat penerjemahan dan penelitian yang menyatukan ilmu dari Yunani, Persia, dan India.','Tokoh seperti Al-Khawarizmi bekerja di lingkungan Baitul Hikmah.','📚','Baghdad'],
+['Andalusia dan Kordoba','Abdurrahman I mendirikan Emirat Umayyah di Andalusia (756 M). Kordoba tumbuh menjadi kota ilmu dengan Masjid Agung, perpustakaan besar, dan Madinat az-Zahra. Ilmuwan seperti Az-Zahrawi dan Ibnu Rusyd berkarya di wilayah ini.','Ilmu dari Andalusia ikut memengaruhi kebangkitan ilmu di Eropa.','🌇','Kordoba'],
+['Fatimiyah, Kairo, dan Pendidikan','Kairo dibangun Dinasti Fatimiyah dan Masjid Al-Azhar didirikan pada 970–972 M, kemudian berkembang menjadi lembaga pendidikan besar. Di Fez, Fatimah al-Fihri mendirikan Al-Qarawiyyin pada 859 M.','Al-Azhar masih menjadi pusat studi Islam hingga sekarang.','🕋','Kairo dan Fez'],
+['Asia Tengah: Bukhara dan Samarkand','Bukhara dan Samarkand menjadi pusat keilmuan di jalur perdagangan Asia Tengah. Ibnu Sina berasal dari wilayah Bukhara. Pada abad ke-15, Ulugh Beg membangun observatorium di Samarkand untuk pengamatan bintang.','Ulugh Beg adalah penguasa Timuriyah sekaligus astronom.','🔭','Samarkand'],
+['Kesultanan Utsmani dan Istanbul','Sultan Muhammad al-Fatih menaklukkan Konstantinopel pada 1453 M, yang kemudian menjadi Istanbul. Arsitek Sinan membangun karya besar seperti Masjid Sulaymaniye (1550-an), yang menunjukkan kemajuan seni bangunan Utsmani.','Utsmani bertahan hingga awal abad ke-20.','🌙','Istanbul']];
+function slides(){let i=0;const r=()=>{const s=SL[i];view(2,`<div class="card slide"><div class="ill">${s[3]}<small>${s[4]}</small></div><h3>${i+1}/7 · ${s[0]}</h3><p>${s[1]}</p><div class="fact">💡 <b>Fakta menarik:</b> ${s[2]}</div><div class="row" style="margin-top:1rem;justify-content:space-between"><button class="btn ghost" id="pv" ${i?'':'disabled'}>◀ Sebelumnya</button>${i<6?'<button class="btn" id="nx">Berikutnya ▶</button>':'<button class="btn" id="fin">Selesaikan Materi ✔</button>'}</div></div>`);
+$('#pv').onclick=()=>{i--;r()};const x=$('#nx');if(x)x.onclick=()=>{i++;beep(500);r()};const f=$('#fin');if(f)f.onclick=()=>win(2,50,15,'Seluruh 7 slide materi telah dipelajari.')};r()}
+
+const Q3=[
+{q:'Siapa ilmuwan Baitul Hikmah yang karyanya tentang aljabar menjadi dasar istilah “algoritma”?',o:['Al-Khawarizmi','Ibnu Sina','Al-Razi','Ibnu Khaldun'],h:'Namanya menjadi asal kata “algoritma”.',e:'Al-Khawarizmi menulis Al-Jabr dan berkarya pada masa Al-Ma’mun.'},
+{q:'Kitab Al-Qanun fi at-Tibb yang menjadi rujukan kedokteran ditulis oleh…',o:['Ibnu Sina','Al-Biruni','Ibnu Rusyd','Al-Ghazali'],h:'Ia berasal dari wilayah Bukhara.',e:'Ibnu Sina (Avicenna) menulis Al-Qanun fi at-Tibb.'},
+{q:'Ibnu al-Haitham dikenal melalui Kitab al-Manazir dalam bidang…',o:['Optik','Aljabar','Hukum Islam','Geografi politik'],h:'Bidang ini mempelajari cahaya dan penglihatan.',e:'Kitab al-Manazir adalah karya penting tentang optik.'},
+{q:'Ibnu Khaldun terkenal dengan karya Muqaddimah yang membahas…',o:['Sejarah dan masyarakat (umran)','Pembedahan','Astronomi bintang','Ilmu pelayaran'],h:'Ia sering disebut perintis ilmu sosial.',e:'Muqaddimah membahas faktor naik turunnya masyarakat dan negara.'},
+{q:'Az-Zahrawi dari Andalusia dikenal dengan karya At-Tasrif dalam bidang…',o:['Bedah','Optik','Kalender','Arsitektur'],h:'Kitabnya memuat alat-alat medis.',e:'At-Tasrif memuat pembahasan bedah dan instrumen medis.'}];
+const M4=[['Baitul Hikmah','Baghdad'],['Masjid Agung','Kordoba'],['Masjid Al-Azhar','Kairo'],['Observatorium Ulugh Beg','Samarkand'],['Masjid Sulaymaniye','Istanbul'],['Kubah Shakhrah','Yerusalem']];
+const M8=[['Al-Khawarizmi','Aljabar (Al-Jabr)'],['Ibnu Sina','Al-Qanun fi at-Tibb'],['Ibnu al-Haitham','Kitab al-Manazir (optik)'],['Al-Biruni','Kajian astronomi dan India'],['Ibnu Rusyd','Komentar karya Aristoteles'],['Fatimah al-Fihri','Pendiri Al-Qarawiyyin']];
+const Q6=[
+{q:'Faktor apa yang paling mendorong kemajuan ilmu pada masa Abbasiyah?',o:['Dukungan penguasa pada penerjemahan dan penelitian','Larangan mempelajari ilmu bangsa lain','Penutupan perpustakaan','Isolasi dari jalur perdagangan'],h:'Ingat peran Baitul Hikmah.',e:'Dukungan khalifah dan gerakan penerjemahan mempercepat perkembangan ilmu.'},
+{q:'Mengapa Baghdad dapat menjadi pusat ilmu dan perdagangan?',o:['Letaknya strategis dan didukung penguasa','Letaknya terpencil','Tidak ada ulama di sana','Hanya memiliki sedikit penduduk'],h:'Kota ini dekat sungai dan jalur dagang.',e:'Lokasi strategis dan dukungan politik menarik para ilmuwan.'},
+{q:'Apa yang melemahkan Abbasiyah hingga runtuh pada 1258 M?',o:['Perpecahan politik dan serangan Mongol','Kemajuan ilmu yang terlalu pesat','Banyaknya observatorium','Meluasnya perpustakaan'],h:'Ada faktor dalam dan luar.',e:'Konflik internal membuat negara lemah dan Mongol menaklukkan Baghdad.'}];
+const Q7=[
+{q:'Semangat “Iqra’” dapat diteladani dalam bentuk…',o:['Budaya membaca, meneliti, dan belajar','Merasa cukup dengan ilmu yang ada','Menghindari ilmu baru','Menyalin tanpa memahami'],h:'Perintah pertama dalam wahyu.',e:'Iqra’ mendorong budaya membaca dan menuntut ilmu.'},
+{q:'Sikap ilmuwan Muslim klasik yang patut diteladani adalah…',o:['Memadukan iman, ilmu, dan kejujuran akademik','Menyembunyikan penemuan','Menolak belajar dari pihak lain','Mengutamakan popularitas'],h:'Mereka berilmu dan beradab.',e:'Mereka belajar terbuka, teliti, dan jujur dalam berkarya.'},
+{q:'Wujud meneladani peradaban Islam di masa kini adalah…',o:['Memanfaatkan ilmu dan teknologi untuk kemaslahatan','Berhenti belajar setelah lulus','Mengutamakan hiburan semata','Menyebarkan kabar tanpa memeriksa'],h:'Ilmu harus memberi manfaat.',e:'Ilmu yang bermanfaat bagi masyarakat adalah teladan utama.'}];
+const Q9=[
+{q:'Dinasti yang menjadikan Baghdad ibu kota adalah…',o:['Abbasiyah','Umayyah','Fatimiyah','Utsmani'],e:'Baghdad dibangun Al-Manshur (762 M).'},
+{q:'Baitul Hikmah mencapai kejayaan pada masa Khalifah…',o:['Al-Ma’mun','Umar bin Khattab','Abdurrahman I','Sulaiman al-Qanuni'],e:'Al-Ma’mun mendukung penerjemahan dan penelitian.'},
+{q:'Kordoba sebagai pusat ilmu berada di wilayah…',o:['Andalusia (Spanyol)','Mesir','Asia Tengah','Anatolia'],e:'Kordoba adalah kota utama Andalusia.'},
+{q:'Al-Qarawiyyin di Fez didirikan oleh…',o:['Fatimah al-Fihri','Ibnu Rusyd','Ulugh Beg','Sinan'],e:'Didirikan pada 859 M.'},
+{q:'Observatorium Samarkand dibangun oleh…',o:['Ulugh Beg','Al-Fatih','Al-Manshur','Salahuddin'],e:'Ulugh Beg adalah penguasa Timuriyah sekaligus astronom.'},
+{q:'Konstantinopel ditaklukkan pada 1453 M oleh…',o:['Muhammad al-Fatih','Harun ar-Rasyid','Abdul Malik','Al-Ma’mun'],e:'Kota itu kemudian menjadi Istanbul.'},
+{q:'Gerakan penerjemahan berdampak pada…',o:['Berkembangnya ilmu dari Yunani, Persia, dan India','Berhentinya penelitian','Hilangnya bahasa Arab','Tertutupnya perpustakaan'],e:'Penerjemahan memperkaya dan mengembangkan ilmu.'},
+{q:'Hikmah utama meneladani ilmuwan Muslim klasik adalah…',o:['Menuntut ilmu dan mengamalkannya untuk kemaslahatan','Mengejar harta semata','Menolak perubahan','Membanggakan masa lalu tanpa berkarya'],e:'Ilmu dan amal harus berjalan bersama.'}];
+
+function quiz(n,Q,hint){let i=0,sc=0;S.tries++;save();
+const show=()=>{const q=Q[i],o=sh(q.o.map((t,k)=>({t,c:!k})));
+view(n,`<div class="card"><small>Soal ${i+1} dari ${Q.length}${hint?'':' · tanpa petunjuk'}</small><h3>${q.q}</h3>${o.map(x=>`<button class="opt" data-c="${x.c?1:0}">${x.t}</button>`).join('')}<div id="fb"></div><div class="row">${hint?'<button class="btn ghost sm" id="hb">💡 Petunjuk (5 koin)</button>':''}</div></div>`);
+const hb=$('#hb');if(hb)hb.onclick=()=>{if(S.coins<5){$('#fb').innerHTML='<div class="fb">Koin ilmu belum cukup.</div>';return}S.coins-=5;save();upd();hb.disabled=true;$('#fb').innerHTML=`<div class="fb">💡 ${q.h}</div>`};
+$$('.opt').forEach(b=>b.onclick=()=>{$$('.opt').forEach(x=>{x.disabled=true;if(x.dataset.c=='1')x.classList.add('good')});const ok=b.dataset.c=='1';if(!ok)b.classList.add('bad','shake');else{sc++;S.ok++}save();beep(ok?740:200);
+$('#fb').innerHTML=`<div class="fb"><b>${ok?'Benar!':'Belum tepat.'}</b> ${q.e}</div><button class="btn" id="nx">${i<Q.length-1?'Lanjut ▶':'Lihat Hasil'}</button>`;if(hb)hb.disabled=true;
+$('#nx').onclick=()=>{i++;i<Q.length?show():done()}})};
+const done=()=>{const p=sc/Q.length;if(p>=.7)win(n,n==9?sc*15+50:sc*10+20,sc*4+10,`Skor ${sc}/${Q.length}.`);else view(n,`<div class="card"><h3>Skor ${sc}/${Q.length}</h3><p>Butuh minimal 70% untuk lulus. Pelajari lagi materi di Stage 2, lalu coba kembali.</p><button class="btn" id="rt">Coba Lagi</button> <button class="btn ghost" id="mp">Ke Peta</button></div>`),$('#rt').onclick=()=>quiz(n,Q,hint),$('#mp').onclick=mapView};
+show()}
+
+function match(n,P,msg){S.tries++;save();let sel=null,got=0;const R=sh(P.map(p=>p[1]));
+view(n,`<div class="card"><p>${msg} Pilih satu di kiri, lalu pasangannya di kanan.</p><div class="grid"><div>${P.map(p=>`<button class="pair L" data-a="${p[0]}">${p[0]}</button>`).join('')}</div><div>${R.map(r=>`<button class="pair R" data-b="${r}">${r}</button>`).join('')}</div></div><div class="row"><button class="btn ghost sm" id="bn">🪙 Bantuan (10 koin)</button><span id="pr">0/${P.length}</span></div></div>`);
+const ok=(l,r)=>{l.classList.remove('sel');l.classList.add('done');r.classList.add('done');got++;S.ok++;save();beep(740);$('#pr').textContent=got+'/'+P.length;if(got==P.length)setTimeout(()=>win(n,60,25,'Semua pasangan benar!'),500)};
+$$('.L').forEach(b=>b.onclick=()=>{$$('.L').forEach(x=>x.classList.remove('sel'));sel=b;b.classList.add('sel')});
+$$('.R').forEach(b=>b.onclick=()=>{if(!sel)return;const t=P.find(p=>p[0]==sel.dataset.a);if(t[1]==b.dataset.b){ok(sel,b);sel=null}else{S.tries++;beep(200);b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),350)}});
+$('#bn').onclick=()=>{if(S.coins<10)return;const l=$$('.L:not(.done)')[0];if(!l)return;S.coins-=10;upd();const t=P.find(p=>p[0]==l.dataset.a);ok(l,$$('.R').find(x=>x.dataset.b==t[1]))}}
+
+function order(){S.tries++;save();const E=[['622 M','Hijrah Nabi dan berdirinya masyarakat Madinah'],['661 M','Berdirinya Dinasti Umayyah di Damaskus'],['750 M','Berdirinya Dinasti Abbasiyah'],['762 M','Pembangunan kota Baghdad oleh Al-Manshur'],['970 M','Pembangunan Masjid Al-Azhar di Kairo'],['1453 M','Penaklukan Konstantinopel oleh Muhammad al-Fatih']];let k=0;
+view(5,`<div class="card"><p>Ketuk peristiwa dari yang paling awal hingga paling akhir.</p><div id="ev">${sh(E.map((e,i)=>i)).map(i=>`<button class="pair" data-i="${i}">${E[i][1]}</button>`).join('')}</div><span id="pr">0/6</span></div>`);
+$$('#ev .pair').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(i==k){b.classList.add('done');b.innerHTML=`<b>${E[i][0]}</b> — ${E[i][1]}`;k++;S.ok++;save();beep(740);$('#pr').textContent=k+'/6';if(k==6)setTimeout(()=>win(5,60,25,'Kronologi tersusun benar!'),500)}else{S.tries++;beep(200);b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),350)}})}
+
+title();
+</script></body></html>
